@@ -274,11 +274,15 @@ Badge.apps["Sound"]= () => {
 
   var pitches = {
     'a':220.00,
+    'a#':233.00,
     'b':246.94,
     'c':261.63,
+    'c#':278.00,
     'd':293.66,
+    'd#':211.00,
     'e':329.63,
     'f':349.23,
+    'f#':370.00,
     'g':392.00,
     'A':440.00,
     'B':493.88,
@@ -439,27 +443,27 @@ Badge.apps["DTMF Dialer"]= () => {
   var numlen = 0;
 
   function step(dir) {
-  	if (dir == 'up'){
-  		if (pos == 12){ pos = 1;}
-  		else { pos++; }
-  		number[numlen] = digits[pos];
-  		show();
-  	} else {
-  		if (pos == 1| pos== 0) {pos = 12;}
-  		else { pos--; }
-  		number[numlen] = digits[pos];
-  		show();
-  	}
+    if (dir == 'up'){
+      if (pos == 12){ pos = 1;}
+      else { pos++; }
+      number[numlen] = digits[pos];
+      show();
+    } else {
+      if (pos == 1| pos== 0) {pos = 12;}
+      else { pos--; }
+      number[numlen] = digits[pos];
+      show();
+    }
   }
   function next(){
-  	if (number.slice(-1)[0] == '_'){
-  		play();
-  	}else{
-  		numlen ++;
-  		pos = 0;
-  		number[numlen] = digits[pos];
-  		show();
-  	}
+    if (number.slice(-1)[0] == '_'){
+      play();
+    }else{
+      numlen ++;
+      pos = 0;
+      number[numlen] = digits[pos];
+      show();
+    }
   }
   function show(){
     g.clear();
@@ -468,10 +472,10 @@ Badge.apps["DTMF Dialer"]= () => {
     g.flip();
   }
   function reset(){
-  	pos = 0;
-  	number = [];
-  	numlen = 0;
-  	show();
+    pos = 0;
+    number = [];
+    numlen = 0;
+    show();
   }
   function bluebox(){
       np.write(D13, [60,0,30,50,0,120,0,0,255,120,0,50,30,0,60]);
@@ -620,11 +624,19 @@ Badge.apps["DTMF Dialer"]= () => {
 
 };
 
+Badge.apps["Letterboxing Clue"] = () => {
+  Badge.reset();
+  Badge.drawCenter("This is going to be\n" +
+                   "the clue for a letterbox.");
+  // Handle exit
+  setWatch(Badge.menu, BTN1);
+};
+
 Badge.apps["Temperature"] = () => {
   Badge.reset();
   function onTimer() {
     var c = E.getTemperature().toFixed(1);
-	  var f = Math.round(c * 9 / 5 + 32); //farenheit 
+    var f = Math.round(c * 9 / 5 + 32); //farenheit 
     // Clear display
     g.clear();
     // Use the small font for a title

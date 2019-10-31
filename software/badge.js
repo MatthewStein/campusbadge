@@ -247,11 +247,63 @@ Badge.apps["Lights"] = () => {
                   }
       lightpattern(l);
     }, 75);
-}
+  }
+
+  var a = [0,0,150];
+  var b = [150,0,0];
+  // Light direction is reversed (far right light = leftmost in arr)
+  var bacon_letters = {
+    'A': a.concat(a,a,a,a),
+    'B': b.concat(a,a,a,a),
+    'C': a.concat(b,a,a,a),
+    'D': b.concat(b,a,a,a),
+    'E': a.concat(a,b,a,a),
+    'F': b.concat(a,b,a,a),
+    'G': a.concat(b,b,a,a),
+    'H': b.concat(b,b,a,a),
+    'I': a.concat(a,a,b,a),
+    'J': a.concat(a,a,b,a),
+    'K': b.concat(a,a,b,a),
+    'L': a.concat(b,a,b,a),
+    'M': b.concat(b,a,b,a),
+    'N': a.concat(a,b,b,a),
+    'O': b.concat(a,b,b,a),
+    'P': a.concat(b,b,b,a),
+    'Q': b.concat(b,b,b,a),
+    'R': a.concat(a,a,a,b),
+    'S': b.concat(a,a,a,b),
+    'T': a.concat(b,a,a,b),
+    'U': b.concat(b,a,a,b),
+    'V': b.concat(b,a,a,b),
+    'W': a.concat(a,b,a,b),
+    'X': b.concat(a,b,a,b),
+    'Y': a.concat(b,b,a,b),
+    'Z': b.concat(b,b,a,b)
+  };
+
+  function bacon(word){
+    word = word.toUpperCase();
+    var i = 0;
+    var l = word.length;
+
+    setInterval(function(){
+      if (i < l) {
+        lightpattern(bacon_letters[word[i]]);
+        i++;
+      } else if (i == l) {
+        // We've reached the end of word. Flash end of cycle indication.
+        var cycle_break = new Uint8Array(15).fill(150);
+        lightpattern(cycle_break);
+        i = 0;
+      }
+    },1000);
+  }
 
   var menu = {
     "": { title: "-- Select Pattern --" },
     "Back to Badge": Badge.badge,
+    "First Light": function () {clearTimeout(); lightpattern([0,0,0,0,0,0,0,0,0,0,0,0,0,0,255]);},
+    "Bacon": function () {clearTimeout(); bacon("MATTHEWSTEIN");},
     "Rainbow": function () {clearTimeout(); lightpattern([0,67,97,0,10,127,127,10,0,55,127,0,0,120,0]);},
     "Ambient/Random": function() { amb(); setInterval(amb, 1000);},
     "Pulse":  function () {clearTimeout(); pulse();},
